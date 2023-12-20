@@ -7,11 +7,6 @@ from promg import Configuration
 
 from promg import Performance
 from promg.modules.db_management import DBManagement
-from promg.modules.task_identification import TaskIdentification
-
-from custom_modules.custom_modules.df_interactions import InferDFInteractions
-from custom_modules.custom_modules.delay_analysis import PerformanceAnalyzeDelays
-from custom_modules.custom_modules.discover_dfg import DiscoverDFG
 
 from colorama import Fore
 

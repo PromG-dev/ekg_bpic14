@@ -1,7 +1,7 @@
 [
   {
     "name": "BPIC14Change",
-    "file_directory": "data\\BPIC14\\",
+    "file_directory": "data\\",
     "file_name": "Detail_Change.csv",
     "labels": [
       "ConfigurationItemAffRecord",
@@ -18,7 +18,8 @@
     "sample": {
       "use_random_sample": false,
       "population_column": "Change record Close Time",
-      "between": ["01-01-2014", "30-06-2014"]
+      "between": ["01-01-2014", "30-06-2014"],
+      "datetime_format": "%d-%m-%Y %H:%M"
     },
     "attributes": [
       {
@@ -267,7 +268,7 @@
   },
   {
     "name": "BPIC14Incident",
-    "file_directory": "data\\BPIC14\\prepared\\",
+    "file_directory": "data\\prepared\\",
     "file_name": "BPIC14Incident.csv",
     "labels": [
       "ConfigurationItemAffRecord",
@@ -283,7 +284,8 @@
     "sample": {
       "use_random_sample": false,
       "population_column": "Resolved Time",
-      "between": ["01-01-2014", "30-06-2014"]
+      "between": ["01-01-2014", "30-06-2014"],
+      "datetime_format": "%d/%m/%Y %H:%M:%S"
     },
     "attributes": [
       {
@@ -591,12 +593,13 @@
   },
   {
     "name": "BPIC14IncidentDetail",
-    "file_directory": "data\\BPIC14\\",
+    "file_directory": "data\\",
     "file_name": "Detail_Incident_Activity.csv",
     "sample": {
       "use_random_sample": false,
       "population_column": "DateStamp",
-      "between": ["01-01-2014", "30-06-2014"]
+      "between": ["01-01-2014", "30-06-2014"],
+      "datetime_format": "%d-%m-%Y %H:%M:%S"
     },
     "labels": [
       "EventRecord",
@@ -683,7 +686,7 @@
   },
   {
     "name": "BPIC14Interaction",
-    "file_directory": "data\\BPIC14\\prepared\\",
+    "file_directory": "data\\prepared\\",
     "file_name": "BPIC14Interaction.csv",
     "labels": [
       "ConfigurationItemAffRecord",
@@ -702,7 +705,8 @@
     "sample": {
       "use_random_sample": false,
       "population_column": "Close Time",
-      "between": ["01-01-2014", "30-06-2014"]
+      "between": ["01-01-2014", "30-06-2014"],
+      "datetime_format": "%d-%m-%Y %H:%M"
     },
     "attributes": [
             {
