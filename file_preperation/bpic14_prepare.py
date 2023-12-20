@@ -10,8 +10,10 @@ import time
 import os
 
 # config
-input_path = os.path.join(os.getcwd(), "..", "data", "BPIC14")
+input_path = os.path.join(os.getcwd(), "..", "data")
 output_path = os.path.join(input_path, "prepared")  # where prepared files will be stored
+if not os.path.exists(output_path):
+    os.mkdir(output_path)
 
 start = time.time()
 
