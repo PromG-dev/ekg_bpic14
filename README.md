@@ -2,7 +2,7 @@
 
 ## Installation
 ### PromG
-The library can be installed in Pyhton using pip
+The library can be installed in Python using pip
 `pip install promg`.
 
 The source code for PromG can be found [PromG Core Github repository](https://github.com/PromG-dev/promg-core).
@@ -24,7 +24,10 @@ Install [Neo4j](https://neo4j.com/download/):
   - Set the password in `config.yaml` to the password of your server. Default value is `12345678`.
   - Set the import directory in `config.yaml` to the import directory of your Neo4j server (see https://neo4j.com/docs/operations-manual/current/configuration/file-locations/ under Import). 
 - Ensure to allocate enough memory to your database, advised: `dbms.memory.heap.max_size=5G`
-- The script expects the `Neo4j APOC library` to be installed as a plugin, see https://neo4j.com/labs/apoc/
+- Install APOC
+  - The script expects the `Neo4j APOC Core library` AND `Neo4j APOC Extended library` to be installed as a plugin, see https://neo4j.com/labs/apoc/
+  - Configure extra settings using the configuration file `$NEO4J_HOME/conf/apoc.conf`
+    - In the conf file, you should add the following line `apoc.import.file.enabled=true`.
 
 ## Data set specific information
 We provide data and scripts for BPI Challenge 2014; store the original data in CSV format in the directory `/data`.
@@ -46,10 +49,9 @@ Furthermore, we provide:
   format required for the import and stores the output in the directory `ROOT/data/prepared/`
 
 ### main script
-There is one script that creates the Event/System knowledge graph: **main.py**
+There is one script that creates the Event knowledge graph: **main.py**
 
-This script imports normalized event table of BPIC14 from CSV files and executes several data modeling queries to construct
-an event graph using the semantic header.
+This script imports normalized event table of BPIC14 from CSV files and executes several data modeling queries to construct an event knowledge graph using the semantic header.
 
 How to use
 ----------
