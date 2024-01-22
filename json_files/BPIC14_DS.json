@@ -1,7 +1,7 @@
 [
   {
     "name": "BPIC14Change",
-    "file_directory": "data\\BPIC14\\",
+    "file_directory": "data\\",
     "file_name": "Detail_Change.csv",
     "labels": [
       "ConfigurationItemAffRecord",
@@ -267,7 +267,7 @@
   },
   {
     "name": "BPIC14Incident",
-    "file_directory": "data\\BPIC14\\prepared\\",
+    "file_directory": "data\\prepared\\",
     "file_name": "BPIC14Incident.csv",
     "labels": [
       "ConfigurationItemAffRecord",
@@ -591,7 +591,7 @@
   },
   {
     "name": "BPIC14IncidentDetail",
-    "file_directory": "data\\BPIC14\\",
+    "file_directory": "data\\",
     "file_name": "Detail_Incident_Activity.csv",
     "sample": {
       "use_random_sample": false,
@@ -683,7 +683,7 @@
   },
   {
     "name": "BPIC14Interaction",
-    "file_directory": "data\\BPIC14\\prepared\\",
+    "file_directory": "data\\prepared\\",
     "file_name": "BPIC14Interaction.csv",
     "labels": [
       "ConfigurationItemAffRecord",
