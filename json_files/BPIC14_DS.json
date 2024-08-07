@@ -18,7 +18,8 @@
     "sample": {
       "use_random_sample": false,
       "population_column": "Change record Close Time",
-      "between": ["01-01-2014", "30-06-2014"]
+      "between": ["01-01-2014", "30-06-2014"],
+      "datetime_format": "%d-%m-%Y %H:%M"
     },
     "attributes": [
       {
@@ -283,7 +284,8 @@
     "sample": {
       "use_random_sample": false,
       "population_column": "Resolved Time",
-      "between": ["01-01-2014", "30-06-2014"]
+      "between": ["01-01-2014", "30-06-2014"],
+      "datetime_format": "%d/%m/%Y %H:%M:%S"
     },
     "attributes": [
       {
@@ -596,7 +598,8 @@
     "sample": {
       "use_random_sample": false,
       "population_column": "DateStamp",
-      "between": ["01-01-2014", "30-06-2014"]
+      "between": ["01-01-2014", "30-06-2014"],
+      "datetime_format": "%d-%m-%Y %H:%M:%S"
     },
     "labels": [
       "EventRecord",
@@ -702,7 +705,8 @@
     "sample": {
       "use_random_sample": false,
       "population_column": "Close Time",
-      "between": ["01-01-2014", "30-06-2014"]
+      "between": ["01-01-2014", "30-06-2014"],
+      "datetime_format": "%d-%m-%Y %H:%M"
     },
     "attributes": [
             {
