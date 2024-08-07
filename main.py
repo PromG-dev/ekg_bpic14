@@ -1,14 +1,9 @@
 from datetime import datetime
-
 from method_manager import MethodManager
 
 # several steps of import, each can be switch on/off
 step_clear_db = True
 step_populate_graph = True
-step_delete_parallel_df = True
-step_discover_model = True
-step_build_tasks = True
-step_infer_delays = True
 
 
 def main() -> None:
