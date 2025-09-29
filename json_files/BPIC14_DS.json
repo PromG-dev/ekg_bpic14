@@ -15,6 +15,8 @@
     "false_values": [
       "N"
     ],
+    "add_log": true,
+    "add_event_index": true,
     "sample": {
       "use_random_sample": false,
       "population_column": "Change record Close Time",
@@ -281,6 +283,8 @@
       "RelatedChangeRecord",
       "KMRecord"
     ],
+    "add_log": true,
+    "add_event_index": true,
     "sample": {
       "use_random_sample": false,
       "population_column": "Resolved Time",
