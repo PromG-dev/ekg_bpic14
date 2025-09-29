@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "records": [
     "(record:EventRecord {timestamp, activity})",
-    "(record:IncidentEventRecord:IncidentOpenRecord {incidentId, openTime})",
-    "(record:IncidentEventRecord:IncidentReopenRecord {incidentId, reopenTime})",
-    "(record:IncidentEventRecord:IncidentCloseRecord {incidentId, closeTime})",
+    "(record:IncidentOpenRecord {incidentId, openTime})",
+    "(record:IncidentReopenRecord {incidentId, reopenTime})",
+    "(record:IncidentCloseRecord {incidentId, closeTime})",
     "(record:ConfigurationItemAffRecord {ciNameAff, OPTIONAL ciTypeAff, OPTIONAL ciSubtypeAff})",
     "(record:ConfigurationItemCByRecord {ciNameCBy, OPTIONAL ciTypeCBy, OPTIONAL ciSubtypeCBy})",
     "(record:ServiceComponentAffRecord {serviceComponentAff})",
@@ -13,7 +13,14 @@
     "(record:IncidentRecord {incidentId, OPTIONAL category, OPTIONAL resolvedTime, OPTIONAL status, OPTIONAL alertStatus, OPTIONAL impact, OPTIONAL urgency, OPTIONAL priority, OPTIONAL numReassignments, OPTIONAL handleTimeHours, OPTIONAL closureCode})",
     "(record:InteractionRecord {interactionId, OPTIONAL impact, OPTIONAL urgency, OPTIONAL priority, OPTIONAL status, OPTIONAL firstCallResolution, OPTIONAL category, OPTIONAL openTime, OPTIONAL closeTime, OPTIONAL handleTimeSecs, OPTIONAL closureCode})",
     "(record:RelatedInteractionRecord {relatedInteractionId})",
-    "(record:ChangeRecord {changeId, OPTIONAL changeType, OPTIONAL riskAssessment, OPTIONAL emergencyChange, OPTIONAL cabApprovalNeeded, OPTIONAL plannedStart, OPTIONAL requestedEndDate, OPTIONAL changeRecordOpenTime, OPTIONAL changeRecordCloseTime, OPTIONAL originatedFrom, OPTIONAL plannedEnd, OPTIONAL scheduledDowntimeStart, OPTIONAL scheduledDowntimeEnd, OPTIONAL actualEnd, OPTIONAL numRelatedIncidents, OPTIONAL numRelatedInteractions})",
+    "(record:ChangeRecord {changeId, OPTIONAL changeType, OPTIONAL riskAssessment, OPTIONAL emergencyChange, OPTIONAL cabApprovalNeeded, OPTIONAL originatedFrom, OPTIONAL numRelatedIncidents, OPTIONAL numRelatedInteractions})",
+    "(record:ChangeRecordPlannedStartRecord {changeId, plannedStart})",
+    "(record:ChangeRecordPlannedEndRecord {changeId, plannedEnd})",
+    "(record:RequestedEndRecord {changeId, requestedEndDate})",
+    "(record:ChangeRecordOpenRecord {changeId, changeRecordOpenTime})",
+    "(record:ChangeRecordCloseRecord {changeId, changeRecordCloseTime})",
+    "(record:ChangeActualStartRecord {changeId, actualStart})",
+    "(record:ChangeActualEndRecord {changeId, actualEnd})",
     "(record:RelatedChangeRecord {relatedChange})",
     "(record:ResourceRecord {assignmentGroup})",
     "(record:KMRecord {kmNumber})"
@@ -24,46 +31,120 @@
       "type": "Event",
       "constructor": [
         {
+          "merge": false,
           "prevalent_record": "(record:EventRecord)",
           "result": "(e:Event {timestamp:record.timestamp, activity:record.activity})"
         },
         {
+          "merge": false,
           "prevalent_record": "(record:IncidentOpenRecord)",
-          "result": "(e:Event:IncidentEvent {timestamp:record.openTime, activity = \"Open Incident\"})"
+          "result": "(e:Event {timestamp:record.openTime, activity: \"Open Incident\"})"
         },
         {
+          "merge": false,
           "prevalent_record": "(record:IncidentReopenRecord)",
-          "result": "(e:Event:IncidentEvent {timestamp:record.reopenTime, activity = \"Reopen Incident\"})"
+          "result": "(e:Event {timestamp:record.reopenTime, activity: \"Reopen Incident\"})"
         },
         {
+          "merge": false,
           "prevalent_record": "(record:IncidentCloseRecord)",
-          "result": "(e:Event:IncidentEvent {timestamp:record.closeTime, activity = \"Close Incident\"})"
+          "result": "(e:Event {timestamp:record.closeTime, activity: \"Close Incident\"})"
+        },
+        {
+          "merge": false,
+          "prevalent_record": "(record:ChangeRecordOpenRecord)",
+          "result": "(e:Event {timestamp:record.changeRecordOpenTime, activity: \"Open Change Record\"})"
+        },
+        {
+          "merge": false,
+          "prevalent_record": "(record:ChangeRecordCloseRecord)",
+          "result": "(e:Event {timestamp:record.changeRecordCloseTime, activity: \"Close Change Record\"})"
+        },
+        {
+          "merge": false,
+          "prevalent_record": "(record:ChangeActualStartRecord)",
+          "result": "(e:Event {timestamp:record.actualStart, activity: \"Start Change Implementation\"})"
+        },
+        {
+          "merge": false,
+          "prevalent_record": "(record:ChangeActualEndRecord)",
+          "result": "(e:Event {timestamp:record.actualEnd, activity: \"End Change Implementation\"})"
+        },
+        {
+          "merge": false,
+          "prevalent_record": "(record:ChangeRecordPlannedStartRecord)",
+          "result": "(e:Event {timestamp:record.plannedStart, activity: \"Planned Start\"})"
+        },
+        {
+          "merge": false,
+          "prevalent_record": "(record:ChangeRecordPlannedEndRecord)",
+          "result": "(e:Event {timestamp:record.plannedEnd, activity: \"Planned End\"})"
+        },
+        {
+          "merge": false,
+          "prevalent_record": "(record:RequestedEndRecord)",
+          "result": "(e:Event {timestamp:record.requestedEndDate, activity: \"Requested End\"})"
         }
       ]
     },
     {
-      "type": "Activity",
+      "type": "EventType",
       "include": true,
       "constructor": [
         {
+          "merge": true,
           "prevalent_record": "(record:EventRecord)",
-          "result": "(a:Activity {activity:record.activity})",
-          "infer_observed": true
+          "result": "(a:EventType {eventType:record.activity})"
         },
         {
+          "merge": true,
           "prevalent_record": "(record:IncidentOpenRecord)",
-          "result": "(a:Activity {activity: \"Open Incident\"})",
-          "infer_observed": true
+          "result": "(a:EventType {eventType: \"Open Incident\"})"
         },
         {
+          "merge": true,
           "prevalent_record": "(record:IncidentReopenRecord)",
-          "result": "(a:Activity {activity: \"Reopen Incident\"})",
-          "infer_observed": true
+          "result": "(a:EventType {eventType: \"Reopen Incident\"})"
         },
         {
+          "merge": true,
           "prevalent_record": "(record:IncidentCloseRecord)",
-          "result": "(a:Activity {activity: \"Close Incident\"})",
-          "infer_observed": true
+          "result": "(a:EventType {eventType: \"Close Incident\"})"
+        },
+        {
+          "merge": false,
+          "prevalent_record": "(record:ChangeRecordOpenRecord)",
+          "result": "(a:EventType {eventType: \"Open Change Record\"})"
+        },
+        {
+          "merge": false,
+          "prevalent_record": "(record:ChangeRecordCloseRecord)",
+          "result": "(a:EventType {eventType: \"Close Change Record\"})"
+        },
+        {
+          "merge": false,
+          "prevalent_record": "(record:ChangeActualStartRecord)",
+          "result": "(a:EventType {eventType: \"Start Change Implementation\"})"
+        },
+        {
+          "merge": false,
+          "prevalent_record": "(record:ChangeActualEndRecord)",
+          "result": "(a:EventType {eventType: \"End Change Implementation\"})"
+        },
+        {
+          "merge": false,
+          "prevalent_record": "(record:ChangeRecordPlannedStartRecord)",
+          "result": "(e:Event {eventType: \"Planned Start\"})"
+        },
+        {
+          "merge": false,
+          "prevalent_record": "(record:ChangeRecordPlannedEndRecord)",
+          "result": "(e:Event {eventType: \"Planned End\"})"
+        },
+        {
+          "merge": false,
+          "prevalent_record": "(record:RequestedEndRecord)",
+          "result": "(e:Event {eventType: \"Requested End\"})"
         }
       ]
     },
@@ -72,12 +153,14 @@
       "include": true,
       "constructor": [
         {
+          "merge": true,
           "prevalent_record": "(record:ConfigurationItemAffRecord)",
-          "result": "(ci:Entity:ConfigurationItem {sysId: record.ciNameAff, OPTIONAL type: record.ciTypeAff, OPTIONAL subType: record.ciSubtypeAff})"
+          "result": "(ci:ConfigurationItem {IDENTIFIER sysId: record.ciNameAff, OPTIONAL type: record.ciTypeAff, OPTIONAL subType: record.ciSubtypeAff})"
         },
         {
+          "merge": true,
           "prevalent_record": "(record:ConfigurationItemCByRecord)",
-          "result": "(ci:Entity:ConfigurationItem {sysId: record.ciNameCBy, OPTIONAL type: record.ciTypeCBy, OPTIONAL subType: record.ciSubtypeCBy})"
+          "result": "(ci:ConfigurationItem {IDENTIFIER sysId: record.ciNameCBy, OPTIONAL type: record.ciTypeCBy, OPTIONAL subType: record.ciSubtypeCBy})"
         }
       ]
     },
@@ -86,12 +169,14 @@
       "include": true,
       "constructor": [
         {
+          "merge": true,
           "prevalent_record": "(record:ServiceComponentAffRecord)",
-          "result": "(sc:Entity:ServiceComponent {sysId: record.serviceComponentAff})"
+          "result": "(sc:ServiceComponent {IDENTIFIER sysId: record.serviceComponentAff})"
         },
         {
+          "merge": true,
           "prevalent_record": "(record:ServiceComponentCByRecord)",
-          "result": "(sc:Entity:ServiceComponent {sysId: record.serviceComponentCBy})"
+          "result": "(sc:ServiceComponent {IDENTIFIER sysId: record.serviceComponentCBy})"
         }
       ]
     },
@@ -100,14 +185,10 @@
       "include": true,
       "constructor": [
         {
+          "merge": true,
           "prevalent_record": "(record:IncidentRecord)",
-          "result": "(i:Entity:Incident {sysId: record.incidentId, OPTIONAL category: record.category, OPTIONAL resolvedTime: record.resolvedTime, OPTIONAL status: record.status, OPTIONAL alertStatus: record.alertStatus, OPTIONAL impact: record.impact, OPTIONAL urgency: record.urgency, OPTIONAL priority: record.priority, OPTIONAL numReassignments: record.numReassignments, OPTIONAL handleTimeHours: record.handleTimeHours, OPTIONAL closureCode: record.closureCode})",
+          "result": "(i:Incident {IDENTIFIER sysId: record.incidentId, OPTIONAL category: record.category, OPTIONAL resolvedTime: record.resolvedTime, OPTIONAL status: record.status, OPTIONAL alertStatus: record.alertStatus, OPTIONAL impact: record.impact, OPTIONAL urgency: record.urgency, OPTIONAL priority: record.priority, OPTIONAL numReassignments: record.numReassignments, OPTIONAL handleTimeHours: record.handleTimeHours, OPTIONAL closureCode: record.closureCode})",
           "inferred_relationships": [
-            {
-              "event": "(:Event)",
-              "record_labels": "IncidentEventRecord",
-              "relation_type": "CORR"
-            },
             {
               "event": "(:Event {activity: \"Open Incident\"})",
               "record_labels": "IncidentOpenRecord",
@@ -135,8 +216,9 @@
       "include": true,
       "constructor": [
         {
+          "merge": true,
           "prevalent_record": "(record:InteractionRecord)",
-          "result": "(it:Entity:Interaction {sysId: record.interactionId, OPTIONAL impact: record.impact, OPTIONAL urgency: record.urgency, OPTIONAL priority: record.priority, OPTIONAL status: record.status, OPTIONAL firstCallResolution: record.firstCallResolution, OPTIONAL category: record.category, OPTIONAL openTime: record.openTime, OPTIONAL closeTime: record.closeTime, OPTIONAL handleTimeSecs: record.handleTimeSecs, OPTIONAL closureCode: record.closureCode})",
+          "result": "(it:Interaction {IDENTIFIER sysId: record.interactionId, OPTIONAL impact: record.impact, OPTIONAL urgency: record.urgency, OPTIONAL priority: record.priority, OPTIONAL status: record.status, OPTIONAL firstCallResolution: record.firstCallResolution, OPTIONAL category: record.category, OPTIONAL openTime: record.openTime, OPTIONAL closeTime: record.closeTime, OPTIONAL handleTimeSecs: record.handleTimeSecs, OPTIONAL closureCode: record.closureCode})",
           "inferred_relationships": [
             {
               "record_labels": "EventRecord",
@@ -145,9 +227,10 @@
           ]
         },
         {
+          "merge": true,
           "include": false,
           "prevalent_record": "(record:RelatedInteractionRecord)",
-          "result": "(it:Entity:Interaction {sysId: record.relatedInteractionId})"
+          "result": "(it:Interaction {IDENTIFIER sysId: record.relatedInteractionId})"
         }
       ],
       "include_label_in_df": true,
@@ -158,12 +241,51 @@
       "include": true,
       "constructor": [
         {
+          "merge": true,
           "prevalent_record": "(record: ChangeRecord)",
-          "result": "(c:Entity:Change {sysId: record.changeId, OPTIONAL type: record.changeType, OPTIONAL riskAssessment: record.riskAssessment, OPTIONAL emergencyChange: record.emergencyChange, OPTIONAL cabApprovalNeeded: record.cabApprovalNeeded, OPTIONAL plannedStart: record.plannedStart, OPTIONAL requestedEndDate: record.requestedEndDate, OPTIONAL changeRecordOpenTime: record.changeRecordOpenTime, OPTIONAL changeRecordCloseTime: record.changeRecordCloseTime, OPTIONAL originatedFrom: record.originatedFrom, OPTIONAL plannedEnd: record.plannedEnd, OPTIONAL scheduledDowntimeStart: record.scheduledDowntimeStart, OPTIONAL scheduledDowntimeEnd: record.scheduledDowntimeEnd, OPTIONAL actualStart: record.actualEnd, OPTIONAL numRelatedIncidents: record.numRelatedIncidents, OPTIONAL numRelatedInteractions: record.numRelatedInteractions})"
+          "result": "(c:Change {IDENTIFIER sysId: record.changeId, OPTIONAL type: record.changeType, OPTIONAL riskAssessment: record.riskAssessment, OPTIONAL emergencyChange: record.emergencyChange, OPTIONAL cabApprovalNeeded: record.cabApprovalNeeded, OPTIONAL originatedFrom: record.originatedFrom, OPTIONAL numRelatedIncidents: record.numRelatedIncidents, OPTIONAL numRelatedInteractions: record.numRelatedInteractions})"
         },
         {
+          "merge": true,
           "prevalent_record": "(record:RelatedChangeRecord)",
-          "result": "(c:Entity:Change {sysId: record.relatedChange})"
+          "result": "(c:Change {IDENTIFIER sysId: record.relatedChange})"
+        }
+      ],
+      "inferred_relationships": [
+        {
+          "event": "(:Event {activity: \"Open Change Record\"})",
+          "record_labels": "ChangeRecordOpenRecord",
+          "relation_type": "OPENS RECORD"
+        },
+        {
+          "event": "(:Event {activity: \"Close Change Record\"})",
+          "record_labels": "ChangeRecordCloseRecord",
+          "relation_type": "CLOSES RECORD"
+        },
+        {
+          "event": "(:Event {activity: \"Start Change Implementation\"})",
+          "record_labels": "ChangeActualStartRecord",
+          "relation_type": "START"
+        },
+        {
+          "event": "(:Event {activity: \"End Change Implementation\"})",
+          "record_labels": "ChangeActualEndRecord",
+          "relation_type": "END"
+        },
+        {
+          "event": "(:Event {activity:  \"Requested End\"})",
+          "record_labels": "RequestedEndRecord",
+          "relation_type": "CORR"
+        },
+        {
+          "event": "(:Event {activity:  \"Planned End\"})",
+          "record_labels": "ChangeRecordPlannedEndRecord",
+          "relation_type": "CORR"
+        },
+        {
+          "event": "(:Event {activity:  \"Planned Start\"})",
+          "record_labels": "ChangeRecordPlannedStartRecord",
+          "relation_type": "CORR"
         }
       ]
     },
@@ -173,7 +295,8 @@
       "constructor": [
         {
           "prevalent_record": "(record:ResourceRecord)",
-          "result": "(res:Entity:Resource {sysId: record.assignmentGroup})",
+          "result": "(res:Resource {IDENTIFIER sysId: record.assignmentGroup})",
+          "merge": true,
           "inferred_relationships": [
             {
               "record_labels": "EventRecord",
@@ -192,7 +315,8 @@
       "constructor": [
         {
           "prevalent_record": "(record:KMRecord)",
-          "result": "(km:Entity:KnowledgeDocument {sysId: record.kmNumber})"
+          "result": "(km:KnowledgeDocument {IDENTIFIER sysId: record.kmNumber})",
+          "merge": true
         }
       ]
     }
@@ -237,15 +361,15 @@
       "type": "RelatedServiceComponent",
       "constructor": [
         {
-          "prevalent_record": "(:ConfigurationItemAffRecord:ServiceComponentAffRecord)",
-          "from_node": "(ci:ConfigurationItem)",
-          "to_node": "(sc:ServiceComponent)",
+          "prevalent_record": "(record:ConfigurationItemAffRecord:ServiceComponentAffRecord)",
+          "from_node": "(ci:ConfigurationItem {sysId:record.ciNameAff})",
+          "to_node": "(sc:ServiceComponent {sysId:record.serviceComponentAff})",
           "result": "(ci) - [:RELATED_SERVICE_COMPONENT] -> (sc)"
         },
         {
-          "prevalent_record": "(:ConfigurationItemCByRecord:ServiceComponentCByRecord)",
-          "from_node": "(ci:ConfigurationItem)",
-          "to_node": "(sc:ServiceComponent)",
+          "prevalent_record": "(record:ConfigurationItemCByRecord:ServiceComponentCByRecord)",
+          "from_node": "(ci:ConfigurationItem {sysId:record.ciNameCBy})",
+          "to_node": "(sc:ServiceComponent {sysId:record.serviceComponentCBy}",
           "result": "(ci) - [:RELATED_SERVICE_COMPONENT] -> (sc)"
         }
       ]
